@@ -59,14 +59,14 @@ class Box<T extends Fruit> {
     // public void add(Fruit fruit)
     public void add(T fruit) /*throws ImproperBoxUsageException*/ {
         if (container == null) {
-            container = new ArrayList<>(new ArrayList<>(Collections.singletonList(fruit)));
-        } else {
-             /*if (container.get(0).getClass() != fruit.getClass())
+            container = new ArrayList<>();
+        } /*else {
+             if (container.get(0).getClass() != fruit.getClass())
                 throw new ImproperBoxUsageException(fruit.getNameSingle(),
                         container.get(0).getNameMultiple(true), true);
             else*/
                 container.add(fruit);
-        }
+        //}
     }
 
     // тип фруктов в коробке
