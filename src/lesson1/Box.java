@@ -42,7 +42,7 @@ class Box<T extends Fruit> {
     public boolean sendContents(Box<?> box) /*throws ImproperBoxUsageException*/ {
         if (container != null && box != null) {
             if (box.container == null) {
-                box.container = new ArrayList<>(container);
+                box.container = new ArrayList<>();
             } /*else {
                 if (container.get(0).getClass() != box.container.get(0).getClass())
                     throw new ImproperBoxUsageException(container.get(0).getNameMultiple(false),
