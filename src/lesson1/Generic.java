@@ -5,6 +5,8 @@ import java.util.*;
 class Generic<T> {
     private final T[] genArr;
 
+    Generic () { genArr = null; }
+
     Generic (T[] arr) { genArr = arr; }
 
     private boolean isValidIndex(int idx) { return genArr != null && idx >= 0 && idx < genArr.length; }
@@ -35,6 +37,10 @@ class Generic<T> {
       2. Написать метод, который преобразует массив в ArrayList;
      */
     public ArrayList<T> convert() {
-        return new ArrayList<>(Arrays.asList(genArr));
+        return genArr == null ? null : new ArrayList<>(Arrays.asList(genArr));
+    }
+
+    public ArrayList<T> convert(T[] arr) {
+        return new ArrayList<>(Arrays.asList(arr));
     }
 }
