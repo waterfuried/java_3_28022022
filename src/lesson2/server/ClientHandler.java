@@ -105,8 +105,7 @@ public class ClientHandler {
                                             sendMsg("Пользователь с никнеймом " + s[1] + " уже зарегистрирован");
                                         } else {
                                             String oldNick = this.getNickname();
-                                            boolean changed = server.userDataUpdated(oldNick, s[1]);
-                                            if (changed) {
+                                            if (server.userDataUpdated(oldNick, s[1])) {
                                                 sendMsg(Prefs.getCommand(Prefs.SRV_CHANGE_OK, s[1]));
                                                 server.sendBroadcastMsg(this, "это мой новый никнейм," +
                                                         " бывший - " + oldNick);
