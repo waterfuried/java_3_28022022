@@ -130,9 +130,11 @@ public class Controller implements Initializable {
 
     /*
      * обработка команд/ответов сервера
-     * поскольку в методе запускается поток аутентификации (который может
-     * продолжаться сколько угодно), чтобы метод возвращал, например,
-     * boolean, корректнее дожидаться завершения потока
+     *
+     * производится в запускаемом отдельном потоке (который может
+     * работать сколько угодно), потому метод не возвращает ничего -
+     * если, например, нужно, чтобы метод возвращал boolean-значение,
+     * нужно дожидаться завершения работы потока или ошибки его запуска
      */
     private void connect() {
         serverRunning = true;
@@ -150,9 +152,8 @@ public class Controller implements Initializable {
                         String str = in.readUTF();
 
                         if (str.startsWith(Prefs.COM_ID)) {
-                            if (str.equals(Prefs.getCommand(Prefs.COM_QUIT))) {
+                            if (str.equals(Prefs.getCommand(Prefs.COM_QUIT)))
                                 break;
-                            }
                             // авторизация прошла
                             if (str.startsWith(Prefs.getCommand(Prefs.SRV_AUTH_OK))) {
                                 nickname = str.split(" ")[1];
@@ -200,9 +201,6 @@ public class Controller implements Initializable {
                                     }
                                 });
                             }
-    /*
-      ------------------ блок исправлений с (отличий от) последней версии ------------------
-    */
                             //попытка смены никнейма
                             if (str.startsWith(Prefs.getCommand(Prefs.SRV_CHANGE_OK))) {
                                 String[] s = str.split(" ");
@@ -210,9 +208,6 @@ public class Controller implements Initializable {
                             }
                             if (str.equals(Prefs.getCommand(Prefs.SRV_CHANGE_FAULT)))
                                 textArea.appendText("Ошибка обновления информации в БД");
-    /*
-      ------------------ конец блока ------------------
-    */
                         } else {
                             textArea.appendText(str + "\n");
                         }

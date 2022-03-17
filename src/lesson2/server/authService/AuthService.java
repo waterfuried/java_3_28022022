@@ -2,26 +2,22 @@ package lesson2.server.authService;
 
 public interface AuthService {
     /**
-     * метод получения никнейма по логину и паролю
+     * получить никнейм по логину и паролю
      * @return null если учетная запись не найдена, nickname - в противном случае
      **/
     String getNickname (String login, String password);
 
     /**
-     * метод для регистрации учетной записи
+     * выполнить регистрацию учетной записи
      * @return true при успешной регистрации, false - в противном случае (если логин/никнейм заняты)
      **/
-    boolean registered (String login, String password, String nickname);
-
-    /*
-      ------------------ блок исправлений с (отличий от) последней версии ------------------
-    */
+    boolean registerUser(String login, String password, String nickname);
 
     /**
-     * проверить успешность запуска сервиса
+     * проверить запуск сервиса
      * @return true при успешном запуске, false - в противном случае
      **/
-    boolean serviceActive();
+    boolean isServiceActive();
 
     /**
      * обновить данные пользователя: изменить никнейм
@@ -42,8 +38,4 @@ public interface AuthService {
      * который производит его (сервиса) активацию
      **/
     default void close() {}
-
-    /*
-      ------------------ конец блока ------------------
-    */
 }

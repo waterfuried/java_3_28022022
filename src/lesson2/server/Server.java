@@ -21,15 +21,12 @@ public class Server {
     private List<ClientHandler> clients;
     private AuthService authService;
 
-    private final boolean connected;
-
     public Server() {
         clients = new CopyOnWriteArrayList<>();
 
         // если нет подключения к БД, запустить простой сервис авторизации
         authService = new AuthServiceDB();
-        connected = authService.serviceActive();
-        if (!connected) {
+        if (!authService.isServiceActive()) {
             authService.close();
             authService = new AuthServiceSimple();
         }
@@ -61,9 +58,8 @@ public class Server {
     }
 
     public void sendBroadcastMsg (ClientHandler sender, String msg){
-        for (ClientHandler c : clients) {
+        for (ClientHandler c : clients)
             c.sendMsg(String.format("[ %s ]: %s", sender.getNickname(), msg));
-        }
     }
 
     public void sendPrivateMsg (ClientHandler sender, String receiver, String msg) {
@@ -98,9 +94,6 @@ public class Server {
         return false;
     }
 
-/*
-  ------------------ блок исправлений с (отличий от) последней версии ------------------
-*/
     // проверить наличие регистрации пользователя с определенным ником
     public boolean userRegistered(String nickname){
         return authService.alreadyRegistered(nickname);
@@ -115,17 +108,14 @@ public class Server {
         но эта функция оставлена за вызывающим методом
      */
     public boolean userDataUpdated(String oldNick, String newNick) {
-        boolean result = authService.updateData(oldNick, newNick);
-        if (result) {
+        if (authService.updateData(oldNick, newNick)) {
             for (ClientHandler c : clients)
                 if (c.getNickname().equals(oldNick)) c.setNickname(newNick);
             broadcastClientList();
-        }
-        return result;
+            return true;
+        } else
+            return false;
     }
-/*
-  ------------------ конец блока ------------------
-*/
 
     public void subscribe (ClientHandler clientHandler){
         clients.add(clientHandler);

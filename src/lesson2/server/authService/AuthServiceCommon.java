@@ -17,7 +17,8 @@ public class AuthServiceCommon implements AuthService {
     }
 
     @Override
-    public boolean registered(String login, String password, String nickname) {
+    // сохранение данных нового пользователя в оперативной памяти
+    public boolean registerUser(String login, String password, String nickname) {
         for (UserData u : users)
             if (u.getLogin().equals(login) || u.getNickname().equals(nickname))
                 return false;
@@ -26,7 +27,7 @@ public class AuthServiceCommon implements AuthService {
         return true;
     }
 
-    @Override public boolean serviceActive() { return users.size() > 0; }
+    @Override public boolean isServiceActive() { return users.size() > 0; }
 
     @Override
     public boolean alreadyRegistered(String nickname) {

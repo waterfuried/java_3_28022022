@@ -71,7 +71,7 @@ public class ClientHandler {
                                 String[] token = str.split(" ");
                                 if (token.length == 4) {
                                     socket.setSoTimeout(0);
-                                    sendMsg(server.getAuthService().registered(token[1], token[2], token[3])
+                                    sendMsg(server.getAuthService().registerUser(token[1], token[2], token[3])
                                             ? Prefs.getCommand(Prefs.SRV_REG_ACCEPT)
                                             : Prefs.getCommand(Prefs.SRV_REG_FAULT));
                                 }
@@ -95,9 +95,6 @@ public class ClientHandler {
                                 case Prefs.COM_PRIVATE_MSG:
                                     if (s.length == 3) server.sendPrivateMsg(this, s[1], s[2]);
                                     break;
-    /*
-      ------------------ блок исправлений с (отличий от) последней версии ------------------
-    */
                                 // смена пользоваетелем своего ника
                                 case Prefs.COM_CHANGE_NICK:
                                     if (s.length == 2 && !s[1].equals(this.getNickname())) {
@@ -118,9 +115,6 @@ public class ClientHandler {
                                         }
                                     }
                                     break;
-    /*
-      ------------------ конец блока ------------------
-    */
                                 // все, что не команда
                                 default: broadcastMsg = true;
                             }
